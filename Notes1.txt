@@ -1,0 +1,25 @@
+Command to install tensorflow
+pip3 install --trusted-host pypi.python.org --upgrade tensorflow
+
+To see tensorboard
+tensorboard --logdir="SimpleMathGraph"
+
+To install keras
+pip3 install --trusted-host pypi.python.org keras
+
+To install scikit-learn
+pip3 install --trusted-host pypi.python.org scikit-learn
+
+To install matplotlib
+pip3 install --trusted-host pypi.python.org matplotlib
+
+Rules of thumb for starting number of hidden layers
+0           only represent linearly separable
+1           continuous mapping from one finite space to another
+2           can represent arbitray decision boundary
+3 or more   additional layers can learn complex representations
+
+Rules of thumb for number of neurons
+>= size of input layer AND <= size of output layer
+(2/3 * size of input layer) + size of output layer
+<2 * size of input layer
