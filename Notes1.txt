@@ -23,3 +23,5 @@ Rules of thumb for number of neurons
 >= size of input layer AND <= size of output layer
 (2/3 * size of input layer) + size of output layer
 <2 * size of input layer
+
+
