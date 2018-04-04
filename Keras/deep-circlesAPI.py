@@ -93,14 +93,20 @@ my_callbacks = [EarlyStopping(monitor='val_acc', patience=5, mode=max)]
 
 # Fit the model. Make 100 cycles through the data. Verbose = 0 means suppress progress messages
 # in each cycle the optimizer will try to improve the accuracy
-model.fit(X_train, y_train, epochs=100, verbose=1, callbacks=my_callbacks, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=100, verbose=0, callbacks=my_callbacks, validation_data=(X_test, y_test))
+
 # Get loss and accuracy on test data
 eval_result = model.evaluate(X_test, y_test)
+
 # Print test accuracy
 print("\n\nTest loss : ", eval_result[0], "Test accuracy:", eval_result[1])
+
 # Plot the decision boundary
 plot_decision_boundary(model, X, y).show()
 
+# print model to JSON
+# print(model.to_json())
+ 
 
 
 

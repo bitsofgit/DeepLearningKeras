@@ -24,4 +24,29 @@ Rules of thumb for number of neurons
 (2/3 * size of input layer) + size of output layer
 <2 * size of input layer
 
+Keras layers
+    Groups
+        Common
+            Dense - each neuron is connected to every other layer
+            Dropout - Sometimes data fits too nicely - that's called overfitting. Dropout layer is used to remove overfitting.
+        Shaping
+            Reshape 
+            Flatten
+            Permute
+            RepeatVector
+        Merging
+            Add
+            Subtract
+            Multiply
+            Average
+            Maximum
+            Concatenate
+            Dot
+        Extension
+            For extending and custom tasks
+            Lambda
+            Custom
+        Convolutional - separate module - for images
+        Recurrent - separate module - for finding meaning of sentence
+
 
