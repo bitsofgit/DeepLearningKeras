@@ -125,7 +125,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 epoch_list = list(range(1, len(hist.history['acc'])+1)) #values for x axis
 plt.plot(epoch_list, hist.history['acc'], epoch_list, hist.history['val_acc'])
-plt.legend('Training Accuracy', 'Validation Accuracy')
+# plt.legend('Training Accuracy', 'Validation Accuracy')
 plt.show()
 
-
+# Save the model
+model.save('FashionMnist.model')
