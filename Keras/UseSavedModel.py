@@ -1,12 +1,20 @@
 # use saved model.py
 import keras
+import numpy as np
 
 from keras.models import load_model
 from keras.preprocessing import sequence
+from keras.datasets import imdb
+
+# suppresses level 1 and 0 warning messages
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
 
 # load the saved model
 model = load_model('sentiment_lstm.model')
 
+# Compile
+# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # get data to predict
 x_data = [[2, 2, 2, 2, 33, 2804, 2, 2040, 432, 111, 153, 103, 2, 1494, 13, 70, 131, 67, 11, 61, 2, 744, 35, 3715, 761, 61, 
 5766, 452, 2, 2, 985, 2, 2, 59, 166, 2, 105, 216, 1239, 41, 1797, 2, 15, 2, 35, 744, 2413, 31, 2, 2, 687, 23, 2, 2, 2, 2, 
@@ -28,8 +36,68 @@ x_data = [[2, 2, 2, 2, 33, 2804, 2, 2040, 432, 111, 153, 103, 2, 1494, 13, 70, 1
 2, 67, 2, 22, 15, 2, 283, 2, 5168, 14, 31, 2, 242, 955, 48, 25, 279, 2, 23, 12, 1685, 195, 25, 238, 60, 796, 2, 2, 671, 2, 2804, 
 2, 2, 559, 154, 888, 2, 726, 50, 26, 49, 2, 15, 566, 30, 579, 21, 64, 2574]]
 
+
+
+
 x_data = sequence.pad_sequences(x_data, maxlen=400)
 
-print('x_data.shape:', x_data.shape)
+#print('x_data.shape:', x_data.shape)
 
 y_data = model.predict(x_data)
+
+#print(y_data.shape)
+#print(y_data)
+
+NUM_WORDS = 6000        # top most n frequent words to consider
+SKIP_TOP = 0            # skip the top most words that are likely like the, and, a etc
+MAX_REVIEW_LEN = 400    # Max number of words from review
+
+# Load data
+(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=NUM_WORDS, skip_top=SKIP_TOP)
+
+x_test = sequence.pad_sequences(x_test, maxlen=MAX_REVIEW_LEN)
+
+testitem = 7
+#print(x_test[testitem])
+#print("Original Estimate: ", y_test[testitem])
+
+#print(x_test.shape)
+#print(x_test[testitem].shape)
+#y = x_test[testitem].reshape((1,MAX_REVIEW_LEN))
+#print(y.shape)
+
+#newy = model.predict(y, verbose=0)
+#print("New Prediction: ", newy)
+
+REVIEW_NUM = 10
+
+INDEX_FROM = 3
+word_to_id = keras.datasets.imdb.get_word_index()
+word_to_id = {k:(v+INDEX_FROM) for k,v in word_to_id.items()}
+word_to_id["<PAD>"] = 0
+word_to_id["<START>"] = 1
+word_to_id["<UNK>"] = 2
+
+id_to_word = {value:key for key,value in word_to_id.items()}
+
+#input_text = ' '.join(id_to_word[id] for id in x_test[REVIEW_NUM] )
+input_text = "The movie was just amazing. guaranteed to please. amazing acting and story. brilliant. It was very realistic and you feel for andy. Morgan Freeman's acting was truly great."
+word_index = imdb.get_word_index()
+#input_text = "this film was just brilliant casting story  direction really the part they played and you could just imagine being there robert is an amazing actor"
+print("Input text: ", input_text)
+#print("Original Prediction: ", y_test[REVIEW_NUM])
+words = input_text.split()
+inputarray = np.array([word_index[word] if word in word_index else 0 for word in words])
+#print(inputarray)
+preprocessed_input = []
+for i in inputarray:
+    preprocessed_input.append(i)
+#print(preprocessed_input)
+preprocessed_input = np.asarray(preprocessed_input)
+preprocessed_input = sequence.pad_sequences(preprocessed_input.reshape((1,len(preprocessed_input))), maxlen=MAX_REVIEW_LEN)
+#print(preprocessed_input.shape)
+prediction = model.predict(preprocessed_input, verbose=1)
+print("Prediction: ", prediction)
+#prediction = model.predict(x_test[REVIEW_NUM].reshape((1,MAX_REVIEW_LEN)),verbose=1)
+#print("Prediction: ", prediction)
+

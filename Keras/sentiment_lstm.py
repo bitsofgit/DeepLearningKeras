@@ -41,10 +41,10 @@ EPOCHS = 5
 cbk_early_stopping = EarlyStopping(monitor='val_acc', mode='max')
 
 # train
-#model.fit(x_train, y_train, BATCH_SIZE, epochs=EPOCHS, validation_data=(x_test, y_test), callbacks=[cbk_early_stopping])
+model.fit(x_train, y_train, BATCH_SIZE, epochs=EPOCHS, validation_data=(x_test, y_test), callbacks=[cbk_early_stopping])
 
 # save model
-#model.save('sentiment_lstm.model')
+model.save('sentiment_lstm.model.h5')
 
 
 
